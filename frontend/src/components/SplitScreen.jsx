@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { getCoachTheme } from "../data/coachTheme";
 
 export default function SplitScreen({
   videoUrl,
@@ -8,7 +9,9 @@ export default function SplitScreen({
   homography,
   startSec = 0,
   initialOrientation = "sideline",
+  themeName = "light",
 }) {
+  const t = getCoachTheme(themeName);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [canvasSize, setCanvasSize] = useState({ width: 640, height: 440 });
@@ -306,9 +309,16 @@ export default function SplitScreen({
   return (
     <div className="mt-6">
       {/* 2D Map View Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-3 bg-gray-900/80 p-3 rounded border border-gray-700 text-xs">
+      <div
+        style={{
+          background: t.insetBg,
+          border: `1px solid ${t.border}`,
+          color: t.text,
+        }}
+        className="flex flex-wrap items-center justify-between gap-3 mb-3 p-3 rounded text-xs"
+      >
         <div className="flex items-center gap-2">
-          <span className="text-gray-400 font-semibold">Map Orientation:</span>
+          <span style={{ color: t.muted }} className="font-semibold">Map Orientation:</span>
           <button
             type="button"
             onClick={() => setOrientation("sideline")}
@@ -399,4 +409,5 @@ SplitScreen.propTypes = {
   homography: PropTypes.array,
   startSec: PropTypes.number,
   initialOrientation: PropTypes.string,
+  themeName: PropTypes.string,
 };
