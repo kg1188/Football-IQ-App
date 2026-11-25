@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    margin: 0;
+  }
+}
+
+.font-coach {
+  font-family: "Barlow Condensed", "Oswald", system-ui, sans-serif;
+  letter-spacing: 0.025em;
+}
+
+.font-mono-coach {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@keyframes tellPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.12);
+  }
+}

@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
+import { getCoachTheme } from "../data/coachTheme";
 
-export default function Calibration({ frame1Url, onCalibrated }) {
+export default function Calibration({ frame1Url, onCalibrated, themeName = "light" }) {
+  const t = getCoachTheme(themeName);
   const imgRef = useRef(null);
   const [points, setPoints] = useState([]);
   const [orientation, setOrientation] = useState("sideline"); // "sideline" | "endzone"
@@ -118,9 +120,18 @@ export default function Calibration({ frame1Url, onCalibrated }) {
   const polygonPoints = points.map((p) => `${p.displayX},${p.displayY}`).join(" ");
 
   return (
-    <div className="mt-6 p-4 border rounded bg-gray-50 text-gray-900">
+    <div
+      style={{
+        marginTop: "20px",
+        padding: "16px",
+        borderRadius: "10px",
+        border: `1px solid ${t.border}`,
+        background: t.cardAlt,
+        color: t.text,
+      }}
+    >
       <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-        <h2 className="text-xl font-bold text-gray-900">4-Point Field Calibration</h2>
+        <h2 className="font-coach text-xl font-bold" style={{ color: t.text }}>4-Point Field Calibration</h2>
         <div className="flex rounded overflow-hidden border border-gray-400 text-xs font-semibold">
           <button
             type="button"
@@ -143,12 +154,15 @@ export default function Calibration({ frame1Url, onCalibrated }) {
         </div>
       </div>
 
-      <p className="text-sm text-gray-600 mb-3">
+      <p className="text-sm mb-3" style={{ color: t.muted }}>
         Click 4 corners where two yard lines meet the sidelines in order:{" "}
         <strong>1. Top-Left → 2. Top-Right → 3. Bottom-Right → 4. Bottom-Left</strong>.
       </p>
 
-      <div className="flex flex-wrap gap-4 mb-3 text-xs text-gray-700 bg-gray-200 p-2.5 rounded">
+      <div
+        className="flex flex-wrap gap-4 mb-3 text-xs p-2.5 rounded"
+        style={{ background: t.insetBg, color: t.textSecondary, border: `1px solid ${t.border}` }}
+      >
         <div>
           <label className="block font-semibold mb-1">
             {orientation === "sideline" ? "Left Yard Line (0–120)" : "Top / Far Yard Line (0–120)"}
@@ -157,9 +171,10 @@ export default function Calibration({ frame1Url, onCalibrated }) {
             type="number"
             value={yardA}
             onChange={(e) => setYardA(e.target.value)}
-            className="w-24 px-2 py-1 border border-gray-400 rounded bg-white text-gray-900"
+            className="w-24 px-2 py-1 border rounded"
+            style={{ background: t.cardBg, color: t.text, borderColor: t.borderStrong }}
           />
-          <span className="ml-2 text-gray-600">(Goal=10, 20yd=30, 50yd=60)</span>
+          <span className="ml-2" style={{ color: t.muted }}>(Goal=10, 20yd=30, 50yd=60)</span>
         </div>
         <div>
           <label className="block font-semibold mb-1">
@@ -169,9 +184,10 @@ export default function Calibration({ frame1Url, onCalibrated }) {
             type="number"
             value={yardB}
             onChange={(e) => setYardB(e.target.value)}
-            className="w-24 px-2 py-1 border border-gray-400 rounded bg-white text-gray-900"
+            className="w-24 px-2 py-1 border rounded"
+            style={{ background: t.cardBg, color: t.text, borderColor: t.borderStrong }}
           />
-          <span className="ml-2 text-gray-600">(Goal=10, 50yd=60, Opp 20yd=90)</span>
+          <span className="ml-2" style={{ color: t.muted }}>(Goal=10, 50yd=60, Opp 20yd=90)</span>
         </div>
       </div>
 
@@ -224,7 +240,7 @@ export default function Calibration({ frame1Url, onCalibrated }) {
           Reset
         </button>
       </div>
-      {status && <p className="mt-2 text-sm font-medium text-gray-800">{status}</p>}
+      {status && <p className="mt-2 text-sm font-medium" style={{ color: t.text }}>{status}</p>}
     </div>
   );
 }
